@@ -66,6 +66,23 @@ class D {
     return this._date.getSeconds();
   };
 
+  set setHours(value) {
+    if (typeof value === 'number' && value >= 0 && value <= 23) {
+      this._date.setHours(value);
+    } else {
+      throw new Error('Invalid hour value. Hours must be a number between 0 and 23.');
+    }
+  }
+
+  set setMinutes(value) {
+    if (typeof value === 'number' && value >= -59 && value <= 59) {
+      const offset = this._date.getTimezoneOffset();
+      this._date.setMinutes(value + offset);
+    } else {
+      throw new Error('Invalid minute value with time zone offset.');
+    }
+  }
+
   // Formatting method that takes a "mask" string.
   format(mask = 'Y M D') {
     const formatOptions = {
@@ -114,59 +131,135 @@ class D {
   };
 
   // when() method that takes a date and returns a human readable string of 'when' that date will occur.
+  // when() {
+  //   const currentDate = new Date();
+  //   const timeDifference = this._date - currentDate;
+  //   const absTimeDifference = Math.abs(timeDifference);
+
+  //   const oneMinute = 60 * 1000;
+  //   const oneHour = oneMinute * 60;
+  //   const oneDay = oneHour * 24;
+  //   const oneMonth = oneDay * 30; // Approximate
+  //   const oneYear = oneDay * 365; // Approximate
+
+  //   if (timeDifference < 0) {
+  //     if (absTimeDifference < oneMinute) {
+  //       return "just now";
+  //     } else if (absTimeDifference < oneHour) {
+  //       const minutesAgo = Math.floor(absTimeDifference / oneMinute);
+  //       return `${minutesAgo} ${minutesAgo === 1 ? 'minute' : 'minutes'} ago`;
+  //     } else if (absTimeDifference < oneDay) {
+  //       const hoursAgo = Math.floor(absTimeDifference / oneHour);
+  //       return `${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
+  //     } else if (absTimeDifference < oneMonth) {
+  //       const daysAgo = Math.floor(absTimeDifference / oneDay);
+  //       return `${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
+  //     } else if (absTimeDifference < oneYear) {
+  //       const monthsAgo = Math.floor(absTimeDifference / oneMonth);
+  //       return `${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
+  //     } else {
+  //       const yearsAgo = Math.floor(absTimeDifference / oneYear);
+  //       return `${yearsAgo} ${yearsAgo === 1 ? 'year' : 'years'} ago`;
+  //     }
+  //   } else if (timeDifference > 0) {
+  //     if (absTimeDifference < oneMinute) {
+  //       return "just now";
+  //     } else if (absTimeDifference < oneHour) {
+  //       const minutesFromNow = Math.floor(absTimeDifference / oneMinute);
+  //       return `in ${minutesFromNow} ${minutesFromNow === 1 ? 'minute' : 'minutes'}`;
+  //     } else if (absTimeDifference < oneDay) {
+  //       const hoursFromNow = Math.floor(absTimeDifference / oneHour);
+  //       return `in ${hoursFromNow} ${hoursFromNow === 1 ? 'hour' : 'hours'}`;
+  //     } else if (absTimeDifference < oneMonth) {
+  //       const daysFromNow = Math.floor(absTimeDifference / oneDay);
+  //       return `in ${daysFromNow} ${daysFromNow === 1 ? 'day' : 'days'}`;
+  //     } else if (absTimeDifference < oneYear) {
+  //       const monthsFromNow = Math.floor(absTimeDifference / oneMonth);
+  //       return `in ${monthsFromNow} ${monthsFromNow === 1 ? 'month' : 'months'}`;
+  //     } else {
+  //       const yearsFromNow = Math.floor(absTimeDifference / oneYear);
+  //       return `in ${yearsFromNow} ${yearsFromNow === 1 ? 'year' : 'years'}`;
+  //     }
+  //   } else {
+  //     return "just now";
+  //   }
+  // };
+
   when() {
     const currentDate = new Date();
-    const timeDifference = this._date - currentDate;
+    const thisDate = new Date(this._date);
+    const timeDifference = thisDate - currentDate;
     const absTimeDifference = Math.abs(timeDifference);
 
     const oneMinute = 60 * 1000;
     const oneHour = oneMinute * 60;
     const oneDay = oneHour * 24;
-    const oneMonth = oneDay * 30; // Approximate
-    const oneYear = oneDay * 365; // Approximate
+    const oneMonth = oneDay * 30;
+    const oneYear = oneDay * 365;
+
+    console.log('currentDateBeforeCond:', currentDate);
+    console.log('this._dateBeforeCond:', this._date);
+    console.log('thisDate:', thisDate);
+    console.log('timeDifferenceBeforeCond:', timeDifference);
+    console.log('absTimeDifferenceBeforeCond:', absTimeDifference);
 
     if (timeDifference < 0) {
+      console.log('Time is in the past');
       if (absTimeDifference < oneMinute) {
+        console.log('Less than a minute ago');
         return "just now";
       } else if (absTimeDifference < oneHour) {
+        console.log('Minutes ago');
         const minutesAgo = Math.floor(absTimeDifference / oneMinute);
         return `${minutesAgo} ${minutesAgo === 1 ? 'minute' : 'minutes'} ago`;
       } else if (absTimeDifference < oneDay) {
+        console.log('Hours ago');
         const hoursAgo = Math.floor(absTimeDifference / oneHour);
         return `${hoursAgo} ${hoursAgo === 1 ? 'hour' : 'hours'} ago`;
       } else if (absTimeDifference < oneMonth) {
+        console.log('Days ago');
         const daysAgo = Math.floor(absTimeDifference / oneDay);
         return `${daysAgo} ${daysAgo === 1 ? 'day' : 'days'} ago`;
       } else if (absTimeDifference < oneYear) {
+        console.log('Months ago');
         const monthsAgo = Math.floor(absTimeDifference / oneMonth);
         return `${monthsAgo} ${monthsAgo === 1 ? 'month' : 'months'} ago`;
       } else {
+        console.log('Years ago');
         const yearsAgo = Math.floor(absTimeDifference / oneYear);
         return `${yearsAgo} ${yearsAgo === 1 ? 'year' : 'years'} ago`;
       }
     } else if (timeDifference > 0) {
       if (absTimeDifference < oneMinute) {
+        console.log('Less than a minute from now');
         return "just now";
       } else if (absTimeDifference < oneHour) {
+        console.log('Minutes from now');
         const minutesFromNow = Math.floor(absTimeDifference / oneMinute);
         return `in ${minutesFromNow} ${minutesFromNow === 1 ? 'minute' : 'minutes'}`;
       } else if (absTimeDifference < oneDay) {
+        console.log('Hours from now');
         const hoursFromNow = Math.floor(absTimeDifference / oneHour);
         return `in ${hoursFromNow} ${hoursFromNow === 1 ? 'hour' : 'hours'}`;
       } else if (absTimeDifference < oneMonth) {
+        console.log('Days from now');
         const daysFromNow = Math.floor(absTimeDifference / oneDay);
         return `in ${daysFromNow} ${daysFromNow === 1 ? 'day' : 'days'}`;
       } else if (absTimeDifference < oneYear) {
+        console.log('Months from now');
         const monthsFromNow = Math.floor(absTimeDifference / oneMonth);
         return `in ${monthsFromNow} ${monthsFromNow === 1 ? 'month' : 'months'}`;
       } else {
+        console.log('Years from now');
         const yearsFromNow = Math.floor(absTimeDifference / oneYear);
         return `in ${yearsFromNow} ${yearsFromNow === 1 ? 'year' : 'years'}`;
       }
     } else {
+      console.log('Current time');
       return "just now";
     }
   };
+
 };
 
 const no_param_date = new D();
