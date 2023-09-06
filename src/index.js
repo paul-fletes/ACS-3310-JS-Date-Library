@@ -82,6 +82,8 @@ class D {
       'i': this.mins,
       'S': this.secs.toString().padStart(2, '0'),
       's': this.secs,
+      'W': this.dayOfWeekFull(),
+      'w': this.dayOfWeekShort(),
     };
 
     const formattedDate = mask.replace(/./g, (char) => {
@@ -89,6 +91,18 @@ class D {
     });
 
     return formattedDate;
+  };
+
+  dayOfWeekFull() {
+    const days = [
+      "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+    ];
+    return days[this._date.getDay()];
+  };
+
+  dayOfWeekShort() {
+    const daysAbbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return daysAbbr[this._date.getDay()];
   };
 
   getDateWithOrdinal() {
@@ -190,6 +204,12 @@ console.log(d.format('y/m/d'));
 console.log(d.format('H:I:S'));
 console.log(d.format('h:i:s'));
 console.log(d.format('Y-M-D h:I:S'));
+
+const da = new D(2023, 8, 30); // September 30, 2023 is a Saturday
+
+console.log(da.format('W'));  // Output: Saturday
+console.log(da.format('w'));  // Output: Sat
+console.log(da.format('Y-M-D w'));  // Output: 2023-September-30 Sat
 
 // Create a when() method that takes a date and returns a human readable string of 'when' that date will occur.
 console.log('--------- Challenge 4 --------')
