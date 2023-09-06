@@ -66,7 +66,38 @@ class D {
     return this._date.getSeconds();
   };
 
+  // Formatting method that takes a "mask" string.
+  format(mask = 'Y M D') {
+    const formatOptions = {
+      'Y': this.year,
+      'y': this.year.toString().slice(-2),
+      'M': this.month,
+      'm': this.mon,
+      'D': this.date.toString().padStart(2, '0'),
+      'd': this.date,
+      '#': this.getDateWithOrdinal(),
+      'H': this.hours.toString().padStart(2, '0'),
+      'h': this.hours,
+      'I': this.mins.toString().padStart(2, '0'),
+      'i': this.mins,
+      'S': this.secs.toString().padStart(2, '0'),
+      's': this.secs,
+    };
 
+    const formattedDate = mask.replace(/./g, (char) => {
+      return formatOptions[char] !== undefined ? formatOptions[char] : char;
+    });
+
+    return formattedDate;
+  };
+
+  getDateWithOrdinal() {
+    const date = this.date;
+    const suffixes = ['st', 'nd', 'rd', 'th'];
+    const relevantDigits = (date < 30) ? date % 20 : date % 30;
+    const suffix = (relevantDigits <= 3) ? suffixes[relevantDigits - 1] : suffixes[3];
+    return `${date}${suffix}`;
+  };
 };
 
 const no_param_date = new D();
@@ -93,3 +124,24 @@ console.log('Get the date: ', challengeTwoDate.date);
 console.log('Get the hour: ', challengeTwoDate.hours);
 console.log('Get the minute: ', challengeTwoDate.mins);
 console.log('Get the second: ', challengeTwoDate.secs);
+
+// Create a format method that takes a "mask" string. 
+// The mask will contain formatting characters which displays various date elements
+console.log('--------- Challenge 3 --------')
+
+const d = new D(2017, 0, 2, 3, 4, 5);
+console.log(d.format());          // Output: 2017 January 02
+console.log(d.format('y/m/d'));   // Output: 17/Jan/2
+console.log(d.format('H:I:S'));   // Output: 03:04:05
+console.log(d.format('h:i:s'));   // Output: 3:4:5
+console.log(d.format('Y-M-D h:I:S')); // Output: 2017-January-02 3:04:05
+
+
+
+module.exports = {
+  months,
+  monthsAbbr,
+  days,
+  daysAbbr,
+  D
+};
