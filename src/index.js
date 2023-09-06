@@ -1,89 +1,138 @@
 // instantiate a list of months and days of the week long and abbreviated.
 // this allows values to be used outside of direct getters.
-
+/**
+ * An array containing the full names of months.
+ * @type {string[]}
+ */
 const months = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
+
+/**
+ * An array containing the abbreviated names of months.
+ * @type {string[]}
+ */
 
 const monthsAbbr = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
 
+/**
+ * An array containing the full names of days of the week.
+ * @type {string[]}
+ */
 const days = [
   "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ];
 
+/**
+ * An array containing the abbreviated names of days of the week.
+ * @type {string[]}
+ */
 const daysAbbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 // Create a class that holds a Date object as a property.
 console.log('--------- Challenge 1 --------')
-
+/**
+ * A class that holds a Date object as a property and provides various getters and methods for date manipulation and formatting.
+ */
 class D {
+  /**
+   * Constructor for the D class.
+   * @param {...any} args - Arguments to be passed to the Date constructor.
+   */
   constructor(...args) {
     this._date = new Date(...args);
   };
 
   // Getters
+  /**
+   * Get the full year of the date.
+   * @type {number}
+   */
   get year() {
     return this._date.getFullYear();
   };
 
+  /**
+   * Get the last two digits of the year.
+   * @type {number}
+   */
   get yr() {
     return this._date.getFullYear() % 100;
   };
 
+  /**
+ * Get the full name of the month.
+ * @type {string}
+ */
   get month() {
     return months[this._date.getMonth()];
   };
 
+  /**
+   * Get the abbreviated name of the month.
+   * @type {string}
+   */
   get mon() {
     return monthsAbbr[this._date.getMonth()];
   };
 
+  /**
+ * Get the full name of the day of the week.
+ * @type {string}
+ */
   get day() {
     return days[this._date.getDay()];
   };
 
+  /**
+ * Get the abbreviated name of the day of the week.
+ * @type {string}
+ */
   get dy() {
     return daysAbbr[this._date.getDay()];
   };
 
+  /**
+ * Get the day of the month.
+ * @type {number}
+ */
   get date() {
     return this._date.getDate();
   };
 
+  /**
+ * Get the hours component of the date.
+ * @type {number}
+ */
   get hours() {
     return this._date.getHours();
   };
 
+  /**
+ * Get the minutes component of the date.
+ * @type {number}
+ */
   get mins() {
     return this._date.getMinutes();
   };
 
+  /**
+ * Get the seconds component of the date.
+ * @type {number}
+ */
   get secs() {
     return this._date.getSeconds();
   };
 
-  set setHours(value) {
-    if (typeof value === 'number' && value >= 0 && value <= 23) {
-      this._date.setHours(value);
-    } else {
-      throw new Error('Invalid hour value. Hours must be a number between 0 and 23.');
-    }
-  }
-
-  set setMinutes(value) {
-    if (typeof value === 'number' && value >= -59 && value <= 59) {
-      const offset = this._date.getTimezoneOffset();
-      this._date.setMinutes(value + offset);
-    } else {
-      throw new Error('Invalid minute value with time zone offset.');
-    }
-  }
-
-  // Formatting method that takes a "mask" string.
+  /**
+   * Format the date using a specified mask.
+   * @param {string} [mask='Y M D'] - The mask string for formatting.
+   * @returns {string} - The formatted date string.
+   */
   format(mask = 'Y M D') {
     const formatOptions = {
       'Y': this.year,
@@ -110,6 +159,10 @@ class D {
     return formattedDate;
   };
 
+  /**
+   * Get the full name of the day of the week.
+   * @returns {string} - The full name of the day of the week.
+   */
   dayOfWeekFull() {
     const days = [
       "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
@@ -117,11 +170,19 @@ class D {
     return days[this._date.getDay()];
   };
 
+  /**
+   * Get the abbreviated name of the day of the week.
+   * @returns {string} - The abbreviated name of the day of the week.
+   */
   dayOfWeekShort() {
     const daysAbbr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return daysAbbr[this._date.getDay()];
   };
 
+  /**
+   * Get the date with an ordinal suffix (e.g., 1st, 2nd, 3rd, 4th).
+   * @returns {string} - The date with the ordinal suffix.
+   */
   getDateWithOrdinal() {
     const date = this.date;
     const suffixes = ['st', 'nd', 'rd', 'th'];
@@ -130,6 +191,10 @@ class D {
     return `${date}${suffix}`;
   };
 
+  /**
+ * Determine the relative time difference between the current date and this date.
+ * @returns {string} - A string indicating the relative time difference.
+ */
   when() {
     const currentDate = new Date();
     const thisDate = new Date(this._date);
