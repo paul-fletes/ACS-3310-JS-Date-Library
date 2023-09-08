@@ -1,6 +1,6 @@
 {
-  "name": "acs-3310-js-date-library",
-  "version": "1.0.0",
+  "name": "@paul-fletes/acs-3310-js-date-library",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "directories": {
