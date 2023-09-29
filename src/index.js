@@ -5,7 +5,7 @@
  * @type {string[]}
  */
 const months = [
-  "January", "February", "March", "April", "May", "June",
+  "JANUARY", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
 
