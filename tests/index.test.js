@@ -9,7 +9,7 @@ describe('Date Library Utility Tests', () => {
 
   test('months array should have correct month names', () => {
     expect(months).toEqual([
-      "JANUARY", "February", "March", "April", "May", "June",
+      "January", "February", "March", "April", "May", "June",
       "July", "August", "September", "October", "November", "December"
     ]);
   });
