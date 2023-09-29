@@ -1,5 +1,6 @@
 // instantiate a list of months and days of the week long and abbreviated.
 // this allows values to be used outside of direct getters.
+// this is an added comment of no value.
 /**
  * An array containing the full names of months.
  * @type {string[]}
