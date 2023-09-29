@@ -7,9 +7,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./ACS-3310-JS-DATE-LIBRARY/
     
     strategy:
       matrix:
